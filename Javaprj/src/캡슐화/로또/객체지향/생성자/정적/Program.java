@@ -25,6 +25,8 @@ public class Program {
 		
 		//6. 다시 출력
 		LottoConsole.print(lotto);
+		
+		LottoConsole.print(lotto);
 
 	}
 
