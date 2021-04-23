@@ -18,6 +18,7 @@ public class Member {
 		// TODO Auto-generated constructor stub
 	}
 	
+
 	public int getId() {
 		return id;
 	}
