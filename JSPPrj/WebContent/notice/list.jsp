@@ -6,7 +6,7 @@
     
     <%
     MemberService memberService = new MemberService();
-	Member[] list = memberService.getList();
+	List<Member> list = memberService.getList();
     %>
     
 <!DOCTYPE html>
@@ -133,10 +133,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <% for(int i=0; i<list.length; i++){ %>
+                                <% for(Member m : list){ %>
                                     <tr>
-                                        <td class="w-1"><%=i+1 %></td>
-                                        <td class="truncate text-align-left"><a href=""><%=list[i].getNicName() %></a></td>
+                                        <td class="w-1"><%=m.getId() %></td>
+                                        <td class="truncate text-align-left"><a href=""><%=m.getNicName() %></a></td>
                                         <td class="w-2">newlec</td>
                                         <td class="w-2">2020-12-12</td>
                                         <td class="w-1">1351</td>

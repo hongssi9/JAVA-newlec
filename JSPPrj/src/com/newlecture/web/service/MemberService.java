@@ -5,13 +5,15 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.newlecture.web.entity.Member;
 
 public class MemberService {
-	public Member[] getList() throws ClassNotFoundException, SQLException {
-		Member[] list = new Member[21];
-		int i = 0;
+	public List<Member> getList() throws ClassNotFoundException, SQLException {
+		List<Member> list = new ArrayList<>();
+//		int i = 0;
 
 		String url = "jdbc:oracle:thin:@hi.namoolab.com:1521/xepdb1";
 //		String sql = String.format("SELECT * FROM MEMBER WHERE NICNAME='%s'",name); //문자열을 값으로 인식하는 방법?
@@ -35,7 +37,7 @@ public class MemberService {
 			member.setNicName(nicName);
 			member.setPwd(pwd);
 
-			list[i++] = member;
+			list.add(member);
 		}
 		return list;
 	}
