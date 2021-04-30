@@ -3,13 +3,21 @@ window.addEventListener("load", function () {
 
     var requestButton = section.querySelector(".btn-request");
     requestButton.onclick = function(e){
-        var request = new window.XMLHttpRequest();
-        //request.open("GET","ex1.txt",false); //비동기식
-        request.open("GET","http://localhost:8080/api/notice/list",false); //다른곳에서 가져온건 불가능!
-        request.send(null);
+        var request = new XMLHttpRequest();
+	/*	request.onreadystatechange = function(){
+			if(request.readyState ==4)
+			console.log(request.responseText);
+		};*/
+		
+		request.onload = function(){
+			console.log(request.responseText);
+		};
+		
+        request.open("GET","http://localhost:8080/api/notice/list",true); //다른곳에서 가져온건 불가능!
+        request.send(null);										   //false는 비동기, 생략시 true
         //cross request 가 뭔지 찾아봐서 이해하기
 
-        console.log(request.responseText);
+        console.log(request.responseText); //비동기면 전체가 실행되기에 빈문자가 나옴->아직 값을 가져오지 않았는데 콘솔이 출력되기때문에
         // console.log("hello"); //출력이 같이 된다면 그건 비동기식
 
     }
