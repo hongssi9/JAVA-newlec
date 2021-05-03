@@ -87,10 +87,10 @@ public class Notice {
 	}
 
 	@Override
-	public String toString() {
-		return "Notice [id=" + id + ", title=" + title + ", writerId=" + writerId + ", content=" + content
-				+ ", regDate=" + regDate + ", hit=" + hit + ", files=" + files + "]";
-	}
+	   public String toString() {
+	      return "{\"id\":" + id + ", \"title\":\"" + title + "\", \"writerId\":\"" + writerId + "\", \"content\":\"" + content
+	            + "\", \"regDate\":\"" + regDate + "\", \"hit\":" + hit + ", \"files\":\"" + files + "\"}";
+	   }
 	   
 	   
 }

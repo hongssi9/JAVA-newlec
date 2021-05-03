@@ -7,15 +7,32 @@
 
 
 <%
-	String f = request.getParameter("f");
+	String f = request.getParameter("f"); //list.jsp 에있는 (String field, String query)로 전달된다.
 	String q = request.getParameter("q");
+	String p = request.getParameter("p"); //페이지
 	
 	System.out.println(f);
 	System.out.println(q);
-
+	System.out.println(p);
+	
+	//변수 초기화 : 기본 값을 설정하는 것
+	int page_ = 1; //페이지 수는 정수로 받아야 하기 때문에 page빨간줄이유 : page는 내장변수가 이미 어디서 쓰이고있어서
+	String field = "title";
+	String query = "";
+	
+	if(p != null)
+		page_ = Integer.parseInt(p);
+	
+	if(f != null && f.equals("")) //null도 아니고 빈 문자도 아니면
+		field = f;
+	
+	if(q != null && !q.equals(""))
+		query = q;
+		
 
    NoticeService noticeService = new NoticeService();
-   List<Notice> list = noticeService.getList(f, q);
+   /* List<Notice> list = noticeService.getList(p, f, q); */
+   List<Notice> list = noticeService.getList(page_, field, query);
 %>
 
 <!DOCTYPE html>
@@ -52,7 +69,7 @@
 						<form>
 							<fieldset>
 								<legend class="d-none">과정 검색 필드</legend>
-								<label>과정검색</label> <input id="a1" type="text" value="테스트">
+								<label>과정검색</label> <input id="a1" type="text" value="">
 								<input class="button" type="submit" value="검색">
 							</fieldset>
 						</form>
@@ -123,15 +140,25 @@
 
 						<section class="search-form">
 							<h1>검색 폼</h1>
-							<form method="get">
+							<form action="list.jsp" method="get">
 								<label class="d-none">검색분류</label>
+								<%
+									String selectedTitle = "";
+									String selectedWriterId = "";
+									
+									if(field.equals("title"))
+										selectedTitle = "selected";
+									
+										if(field.equals("writer_id"))
+											selectedWriterId = "selected";
+								%>
 								<select name="f">
-									<option>분류선택</option>
-									<option value="title">제목</option>
-									<option value="writer_id">작성자</option>
+									<option value="">분류선택</option>
+									<option <%=selectedTitle %> value="title">제목</option>
+									<option <%=selectedWriterId %> value="writer_id">작성자</option>
 								</select>
 								<label class="d-none">검색어</label>
-								<input type="text" name="q">
+								<input type="text" name="q" value="<%=query%>">
 								<input type="submit" value="검색">
 								</form>
 						</section>
@@ -151,11 +178,11 @@
 								<tbody>
 									<% for(Notice n : list){ %>
 									<tr>
-										<td class="w-1"><%=n.getId() %></td>
+										<td class="w-1"><%=n.getId() %></td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
 										<td class="truncate text-align-left"><a href=""><%=n.getTitle() %></a></td>
-										<td class="w-2">n.getWriterId()</td>
-										<td class="w-2">n.getRegDate()</td>
-										<td class="w-1">n.getHit()</td>
+										<td class="w-2"><%=n.getWriterId() %></td>
+										<td class="w-2"><%=n.getRegDate() %></td>
+										<td class="w-1"><%=n.getHit() %></td>
 									</tr>
 									<%} %>
 								</tbody>
@@ -164,20 +191,26 @@
 
 						<section class="page-status mt-3">
 							<h1 class="d-none">현재 페이지 정보</h1>
+							<%
+								int count = noticeService.getCount(field, query);
+								int lastPage = count/10+ (count%10==0?0:1); //
+							%>
 							<div>
-								<span class="text-strong">1</span> / 2 pages
+								<span class="text-strong"><%=page_ %></span> / <%=lastPage %> pages
 							</div>
 						</section>
+						
+						<%
+							String current = "";
+						%>
 
 						<nav class="pager mt-3">
 							<h1 class="d-none">페이저</h1>
 							<div class="button">이전</div>
 							<ul>
-								<li><a class="text-strong" href="">1</a></li>
-								<li>2</li>
-								<li>3</li>
-								<li>4</li>
-								<li>5</li>
+							<%for(int i=0; i<5; i++){ %> <!--누르는 페이지만 색 입히기-->
+								<li><a class="<%=(page_ == i+1)?"text-strong":"" %>" href="list.jsp?p=<%=i+1 %>&f=<%=field %>&q=<%=query%>"><%=i+1 %></a></li>
+							<%} %>						
 							</ul>
 							<div class="button">다음</div>
 						</nav>

@@ -1,5 +1,6 @@
 window.addEventListener("load", function () {
     var section = document.querySelector("#ex12")
+	var tbody = section.querySelector("tbody");
 
     var requestButton = section.querySelector(".btn-request");
     requestButton.onclick = function(e){
@@ -10,7 +11,45 @@ window.addEventListener("load", function () {
 		};*/
 		
 		request.onload = function(){
-			console.log(request.responseText);
+			var list = JSON.parse(request.responseText);
+			
+			/*var tr = '<tr> \
+        			<td>1</td> \
+        			<td>안녕하세요</td> \
+        		</tr>';
+		var tbody = section.querySelector("tbody");*/
+		//1. innerHTML
+		/*tobdy.innerHTML += tr;*/
+		//2. DOM 을 직접 생성해서 추가하는 방법
+		/*var tr = document.createElement("tr");
+		var td = document.createElement("td");
+		td.innerText = "1";
+		tr.append(td);
+		*/
+		//3. template을 이용한 클론
+		/*var trTemplate = section.querySelector("#tr-template");
+		var tr = trTemplate.cloneNode(true);
+		tr.querySelector("td:first-child").innerText = "1";
+		tobdy.append(tr);
+		*/
+		
+		//4. insertAdjacentElement을 이용해서 문자열로 추가
+			//이방법을 가장 많이 사용함
+
+		var trEmpty = tbody.querySelector(".empty")
+		if(list.length > 0 && trEmpty != null) //레코드가없으면 보이지 않게하는 코드
+			trEmpty.remove();
+		
+		for(var i=0; i<list.length; i++){
+		var tr = `<tr>
+						<td>`+list[i].id+`</td>
+						<td>${list[i].title}</td>
+				 </tr>`;
+			
+			tbody.insertAdjacentHTML("beforeend",tr);
+		}
+		
+				
 		};
 		
         request.open("GET","http://localhost:8080/api/notice/list",true); //다른곳에서 가져온건 불가능!

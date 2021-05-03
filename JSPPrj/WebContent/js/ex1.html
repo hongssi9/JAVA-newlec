@@ -13,8 +13,28 @@
     <section id="ex12">
         <h1>아작수</h1>
         <div>
-            <input class="btn-request" type="button" value="click">
+            <input class="btn-request" type="button" value="request">
         </div>
+        <template id="tr-template">
+        	<tr>
+        		<td>1</td>
+        		<td>안녕하세요</td>
+        	</tr>
+        </template>
+        <table border="1">
+        	<thead>
+        		<tr>
+        			<td>아이디</td>
+        			<td>제목</td>
+        		</tr>
+        	</thead>
+        	
+        	<tbody>
+        		<tr class="empty">
+        			<td colspan="2">레코드가 존재하지 않습니다.</td>        			
+        		</tr>        		        	
+        	</tbody>
+        </table>
     </section>
     <hr>
 
