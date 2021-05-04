@@ -158,7 +158,7 @@
 									<option <%=selectedWriterId %> value="writer_id">작성자</option>
 								</select>
 								<label class="d-none">검색어</label>
-								<input type="text" name="q" value="<%=query%>">
+								<input type="text" name="q" value="<%=query%>"> <!--검색했던 데이터 남기기-->
 								<input type="submit" value="검색">
 								</form>
 						</section>
@@ -179,8 +179,8 @@
 									<% for(Notice n : list){ %>
 									<tr>
 										<td class="w-1"><%=n.getId() %></td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
-										<td class="truncate text-align-left"><a href=""><%=n.getTitle() %></a></td>
-										<td class="w-2"><%=n.getWriterId() %></td>
+										<td class="truncate text-align-left"><a href="detail.jsp?id=<%=n.getId() %>"><%=n.getTitle() %></a></td>
+										<td class="w-2"><%=n.getWriterId() %></td>		 <!-- detail.jsp?id=<%=n.getId() %> 링크마다 들어가는 아이디값 다르게하기  --> 
 										<td class="w-2"><%=n.getRegDate() %></td>
 										<td class="w-1"><%=n.getHit() %></td>
 									</tr>
@@ -208,9 +208,11 @@
 							<h1 class="d-none">페이저</h1>
 							<div class="button">이전</div>
 							<ul>
-							<%for(int i=0; i<5; i++){ %> <!--누르는 페이지만 색 입히기-->
+							<%for(int i=0; i<5; i++){ %> <!--1.누르는 페이지만 색 입히기--> 
+								<%if(i+1 <= lastPage) {%> <!--로드된 페이지만큼만 숫자가 뜨기(lastPage)-->
 								<li><a class="<%=(page_ == i+1)?"text-strong":"" %>" href="list.jsp?p=<%=i+1 %>&f=<%=field %>&q=<%=query%>"><%=i+1 %></a></li>
-							<%} %>						
+								<%} %>
+							<%} %>						 <!-- 삼항연산 -->
 							</ul>
 							<div class="button">다음</div>
 						</nav>

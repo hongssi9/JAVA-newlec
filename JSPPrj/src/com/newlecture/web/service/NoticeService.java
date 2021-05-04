@@ -77,6 +77,41 @@ public class NoticeService {
 		return list;
 	}
 	
+
+	public Notice get(int id) throws ClassNotFoundException, SQLException { //단일값 가져오기(리스트에서 아이디가 각 다른 링크를 누를때 필요한..)
+		Notice notice = null;
+		
+		String url = "jdbc:oracle:thin:@hi.namoolab.com:1521/xepdb1";
+		String sql = "SELECT * FROM NOTICE WHERE ID="+id;
+		Class.forName("oracle.jdbc.OracleDriver");
+		Connection con = DriverManager.getConnection(url, "NEWLEC", "11111");
+
+		Statement st = con.createStatement();
+		ResultSet rs = st.executeQuery(sql); // 서버에 있는걸 가져오는..공간
+		if (rs.next()) {
+			String title = rs.getString("title");
+			String content = rs.getString("content");
+			String writerId = rs.getString("writer_Id");
+			Date regDate = rs.getDate("regDate");
+			int hit = rs.getInt("hit");
+			String files = rs.getString("files");
+
+			notice = new Notice();
+			notice.setId(id);
+			notice.setTitle(title);
+			notice.setContent(content);
+			notice.setRegDate(regDate);
+			notice.setHit(hit);
+			notice.setFiles(files);
+			notice.setWriterId(writerId);
+
+		}
+		rs.close();
+		st.close();
+		con.close(); //서버닫기!
+		return notice;
+	}
+	
 	public int getCount(String field, String query) throws ClassNotFoundException, SQLException{
 
 		int count = 0;
