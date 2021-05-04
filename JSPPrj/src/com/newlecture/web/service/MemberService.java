@@ -40,5 +40,7 @@ public class MemberService {
 			list.add(member);
 		}
 		return list;
+		
+		
 	}
 }

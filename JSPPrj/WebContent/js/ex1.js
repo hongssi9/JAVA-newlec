@@ -10,17 +10,19 @@ window.addEventListener("load", function() {
 		if (e.target.tagName != "A") //a태그만 리턴을 하겠다.
 			return;
 			
+			
 		var page = e.target.innerText; //A태그를 받아왔는데 e안에 target무엇을 눌렀는지 -> 그값을 innerText로 뽑기
 		
-		var request = new XMLHttpRequest(); //XMLHttpRequest -> ajax 비동기 호출
-		request.onlaod = function(e){
+		var request = new XMLHttpRequest(); //XMLHttpRequest인스턴스를 제어하기위해 객체 선언
+		request.onlaod = function(e){ //서버로부터 응답을 받으면 발생하는 이벤트 함수
 			var list = JSON.parse(request.responseText);
 		};
 		
 		request.open("GET", `../api/notice/list?p=${page}`, true); //어금부를 사용한다.
-		request.send(null);						
+			//(HTTP 메서드/요청 처리할 페이지의 URL/요청이 비동기로 처리될 것인지 지정하는 불리언 값)
+		request.send(null); //준비된 정보를 전달한다. 추가정보 없으면 null				
 
-		/*console.log(page);*/
+		console.log(page);
 	};
 
 
@@ -31,8 +33,8 @@ window.addEventListener("load", function() {
 				console.log(request.responseText);
 			};*/
 
-		request.onload = function() {
-			var list = JSON.parse(request.responseText);
+		request.onload = function() { //응답-
+			var list = JSON.parse(request.responseText); //responseText:서버에 요청하여 받은 데이터를 문자열로 반환한다.
 
 			/*var tr = '<tr> \
 					<td>1</td> \
