@@ -1,94 +1,112 @@
-window.addEventListener("load", function() {
-	var section = document.querySelector("#ex12")
-	var tbody = section.querySelector("tbody");
-	var requestButton = section.querySelector(".btn-request");
-	var pager = section.querySelector(".pager");
+window.addEventListener("load", function(){
+    var section = document.querySelector("#ex12");
+    var tbody = section.querySelector("tbody");
+    var requestButton = section.querySelector(".btn-request");
+    var pager = section.querySelector(".pager");
+ 	var submitButton = section.querySelector(".search-form input[type=submit]");
+	var fieldInput = section.querySelector(".search-form select");
+	var queryInput = section.querySelector(".search-form input[name=q]");
 
-	pager.onclick = function(e) { //e->새로고침이 되지않고...e->누가 클릭됬는지 알려주는 ->이벤트 발생 정보를 담고있는..
-		e.preventDefault(); //링크를 누를때 새로고침이 되지않게하는 함수
-
-		if (e.target.tagName != "A") //a태그만 리턴을 하겠다.
-			return;
-			
-			
-		var page = e.target.innerText; //A태그를 받아왔는데 e안에 target무엇을 눌렀는지 -> 그값을 innerText로 뽑기
+	submitButton.onclick = function(e){
+		e.preventDefault();
+		console.log("test");
 		
-		var request = new XMLHttpRequest(); //XMLHttpRequest인스턴스를 제어하기위해 객체 선언
-		request.onlaod = function(e){ //서버로부터 응답을 받으면 발생하는 이벤트 함수
-			var list = JSON.parse(request.responseText);
-		};
+		var field = fieldInput.value;
+		var query = queryInput.value;
 		
-		request.open("GET", `../api/notice/list?p=${page}`, true); //어금부를 사용한다.
-			//(HTTP 메서드/요청 처리할 페이지의 URL/요청이 비동기로 처리될 것인지 지정하는 불리언 값)
-		request.send(null); //준비된 정보를 전달한다. 추가정보 없으면 null				
-
-		console.log(page);
+		bind(`../api/notice/list?f=${field}&q=${query}`);
 	};
+   
+   function bind(url){
+      var request = new XMLHttpRequest();      
+      request.onload = function(){
+	
+		tbody.innerHTML = ""; //tbody에 있는 텍스트가 전부 지워진다. 새로운 목록으로tbody가 채워짐
+         var list = JSON.parse(request.responseText);//새로운 목록으로 tbody를 채우는 코드         
+		         
+        /* var trEmpty = tbody.querySelector(".empty");
+         if(list.length > 0 && trEmpty != null)
+            trEmpty.remove();*/
+         
+         for(var i=0; i<list.length; i++){
+            var tr = `<tr>
+                          <td>`+list[i].id+`</td>
+                         <td>${list[i].title}</td>
+                       </tr>`;
+         
+            tbody.insertAdjacentHTML("beforeend", tr);
+         }
+		//2. 창과 아이콘을 제거한다.
+		screen.remove();	
+      };
 
+	request.onabort = function(){
+		console.log("aborted");
+		screen.remove();
+	}
+	
+        request.open("GET", url, true);
+        request.send(null);
 
-	requestButton.onclick = function(e) {
-		var request = new XMLHttpRequest();
-		/*	request.onreadystatechange = function(){
-				if(request.readyState ==4)
-				console.log(request.responseText);
-			};*/
+		//1. 창과 아이콘을 띄운다.
+	var screen = document.createElement("div");
+    
+    screen.style.width = "100%";
+    screen.style.height = "100%";
+    screen.style.backgroundColor = "black";
+    screen.style.position = "fixed";
+    screen.style.top = "0px";
+    screen.style.left = "0px"
+    screen.style.opacity = 0;
+    screen.style.transition = ".5s";
 
-		request.onload = function() { //응답-
-			var list = JSON.parse(request.responseText); //responseText:서버에 요청하여 받은 데이터를 문자열로 반환한다.
-
-			/*var tr = '<tr> \
-					<td>1</td> \
-					<td>안녕하세요</td> \
-				</tr>';
-		var tbody = section.querySelector("tbody");*/
-			//1. innerHTML
-			/*tobdy.innerHTML += tr;*/
-			//2. DOM 을 직접 생성해서 추가하는 방법
-			/*var tr = document.createElement("tr");
-			var td = document.createElement("td");
-			td.innerText = "1";
-			tr.append(td);
-			*/
-			//3. template을 이용한 클론
-			/*var trTemplate = section.querySelector("#tr-template");
-			var tr = trTemplate.cloneNode(true);
-			tr.querySelector("td:first-child").innerText = "1";
-			tobdy.append(tr);
-			*/
-
-			//4. insertAdjacentElement을 이용해서 문자열로 추가
-			//이방법을 가장 많이 사용함
-
-			var trEmpty = tbody.querySelector(".empty")
-			if (list.length > 0 && trEmpty != null) //레코드가없으면 보이지 않게하는 코드
-				trEmpty.remove();
-
-			for (var i = 0; i < list.length; i++) {
-				var tr = `<tr>
-						<td>`+ list[i].id + `</td>
-						<td>${list[i].title}</td> 
-				 </tr>`;
-				//데이터를 문자열 사이에다 꽂을 수 있다.
-				tbody.insertAdjacentHTML("beforeend", tr);
-			}
-
-
-		};
-
-
-
-
-		request.open("GET", "http://localhost:8080/api/notice/list", true); //다른곳에서 가져온건 불가능!
-		request.send(null);										   //false는 비동기, 생략시 true
-		//cross request 가 뭔지 찾아봐서 이해하기
-
-		console.log(request.responseText); //비동기면 전체가 실행되기에 빈문자가 나옴->아직 값을 가져오지 않았는데 콘솔이 출력되기때문에
-		// console.log("hello"); //출력이 같이 된다면 그건 비동기식
-
+	screen.style.display = "flex";
+	screen.style.alignItems = "center";
+	screen.style.justifyContent = "center";
+	
+	var img = document.createElement("img");
+	img.src = "../images/ajax-loader.gif";
+	screen.append(img);
+	
+	var closeButton = document.createElement("input");
+	closeButton.value="취소";
+	closeButton.type="button";
+	closeButton.style.alignSelf = "flex-start";
+	closeButton.style.position="absolute";
+	closeButton.style.right = "0px";
+	screen.append(closeButton);
+	
+	closeButton.onclick = function(){
+		request.abort();
 	}
 
+    setTimeout(function () {
+        screen.style.opacity = 0.7;
+    }, 0);
 
+    section.append(screen);
+   }
+
+   pager.onclick = function(e){
+      e.preventDefault();
+      
+      if(e.target.tagName != "A")
+         return;
+      
+      var page = e.target.innerText;
+      
+      // "http://localhost:8080/api/notice/list?p=2"
+      // "http://localhost:8080/js/ex1.html"
+      bind(`../api/notice/list?p=${page}`);
+      
+   };
+
+    //requestButton.onclick = function(e){
+        bind("http://localhost:8080/api/notice/list");
+    //}
+    
 });
+
 
 
 

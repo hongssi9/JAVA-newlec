@@ -16,6 +16,7 @@
 %>
 
 <!DOCTYPE html>
+<!-- 수정을 위한 페이지 -->
 <html lang="en">
 
 <head>
@@ -89,7 +90,7 @@
 							<li><a class="current" href="list.html">공지사항</a></li>
 							<li><a href="">자주하는 질문</a></li>
 							<li><a href="">수강문의</a></li>
-							<li><a href="">이벤트</a></li> 
+							<li><a href="">이벤트</a></li>
 						</ul>
 					</nav>
 
@@ -113,39 +114,41 @@
 								<li>고객센터</li>
 								<li>공지사항</li>
 							</ol>
-						</section>				 
-						
-						<table border="1">
-                           <tr>
-                              <th>제목</th>
-                              <td colspan="3"><%=notice.getTitle() %></td>
-                           </tr>
-                           <tr>
-                              <th>작성일</th>
-                              <td colspan="3"><%=notice.getRegDate() %></td>
-                           </tr>
-                           <tr>
-                              <th>작성자</th>
-                              <td><%=notice.getWriterId() %></td>
-                              <th>조회수</th>
-                              <td><%=notice.getHit() %></td>
-                           </tr>
-                           <tr>
-                              <th>첨부파일</th>
-                              <td colspan="3"><%=notice.getFiles() %></td>
-                           </tr>
-                           <tr>
-                              <td colspan="4">
-                                <%=notice.getContent() %>
-                              </td>
-                           </tr>
-                        
-                        </table>
-                  <div>
-                     <a href="list.jsp">목록</a>
-                     <a href="edit.jsp?id=<%= id %>">수정</a> <!-- 이미 만들어진 변수id를 사용했지만 notice.getId()이걸로도 가능 -->
-                     <a href="del?id=<%= id %>" onclick="if(!confirm('삭제하시겠습니까?')) return false;">삭제</a> 
-                  </div>
+						</section>
+
+						<form action="edit" method="post"> <!-- 데이터를 달라하는게 아니라 제출이기 때문에 메서드값은 post -->
+							<table border="1">			
+								<tr>
+									<th>제목</th>
+									<td colspan="3"><input type="text" name="title" value="<%=notice.getTitle() %>"></td>
+									<!-- 수정 -->
+								</tr>
+								<tr>
+									<th>작성일</th>
+									<td colspan="3"><%=notice.getRegDate() %></td>
+								</tr>
+								<tr>
+									<th>작성자</th>
+									<td><%=notice.getWriterId() %></td>
+									<th>조회수</th>
+									<td><%=notice.getHit() %></td>
+								</tr>
+								<tr>
+									<th>첨부파일</th>
+									<td colspan="3"><%=notice.getFiles() %></td>
+								</tr>
+								<tr>
+									<td colspan="4"><textarea rows="20" cols="80" name="content"><%=notice.getContent() %></textarea>
+									</td>
+								</tr>
+
+							</table>
+							<div>
+								<input type="hidden" name="id" value="<%=notice.getId() %>">
+								<input type="submit" value="저장">
+								<a href="detail.jsp?id=<%=notice.getId() %>">취소</a>
+							</div>
+						</form>
 					</section>
 
 				</main>

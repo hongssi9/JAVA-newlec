@@ -176,17 +176,20 @@
 									</tr>
 								</thead>
 								<tbody>
-									<% for(Notice n : list){ %>
+									<% for(Notice n : list){ %> <!-- 게시글 목록! 만들기 -->
 									<tr>
 										<td class="w-1"><%=n.getId() %></td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
-										<td class="truncate text-align-left"><a href="detail.jsp?id=<%=n.getId() %>"><%=n.getTitle() %></a></td>
-										<td class="w-2"><%=n.getWriterId() %></td>		 <!-- detail.jsp?id=<%=n.getId() %> 링크마다 들어가는 아이디값 다르게하기  --> 
+										<td class="truncate text-align-left"><a href="detail.jsp?id=<%=n.getId() %>"><%=n.getTitle() %>[20]</a></td>
+										<td class="w-2"><%=n.getWriterId() %></td>		  
 										<td class="w-2"><%=n.getRegDate() %></td>
 										<td class="w-1"><%=n.getHit() %></td>
 									</tr>
 									<%} %>
 								</tbody>
 							</table>
+							<div>
+								<a href="reg.jsp">글쓰기</a>	
+							</div>
 						</section>
 
 						<section class="page-status mt-3">
@@ -200,9 +203,9 @@
 							</div>
 						</section>
 						
-						<%
+						<%-- <%
 							String current = "";
-						%>
+						%> --%>
 
 						<nav class="pager mt-3">
 							<h1 class="d-none">페이저</h1>

@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.newlecture.web.entity.Notice;
 import com.newlecture.web.service.NoticeService;
 
@@ -24,20 +25,44 @@ public class NoticeList extends HttpServlet { //이 클래스를 NoticeList 서�
 		try {
 			
 			String p = req.getParameter("p");
-			int page = 1;
+			String f = req.getParameter("f");
+			String q = req.getParameter("q"); //데이터 받아오기~
 			
-			if(p != null && !p.equals(""))
+			int page = 1;
+			String field = "title";
+			String query = "";
+			
+			if(p != null && !p.equals("")) //값이 널인지 체크
 				page = Integer.parseInt(p);
 			
+			if(f != null && !f.equals(""))
+				field = f;
+			
+			if(q != null && !q.equals(""))
+				query = q;
+			
 			 NoticeService noticeService = new NoticeService();
-			 List<Notice> list = noticeService.getList(page,"title", "");
+			 List<Notice> list = noticeService.getList(page,field,query);
 			 
-			 out.println(list);
+			 Thread.sleep(3000);
+			 
+			 Gson gson = new Gson();
+			 
+			 String json = gson.toJson(list);
+			 
+//			 String json = "[";
+			 
+//			 json += String.format("{\"id\":..... , null);
+			 
+			 out.println(json); //[ , , , , ]구조가 동일해서 운좋게 저렇게 만들어서 출력해준거임list가 배열이라!
 			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
