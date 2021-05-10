@@ -44,7 +44,7 @@ public class NoticeList extends HttpServlet { //이 클래스를 NoticeList 서�
 			 NoticeService noticeService = new NoticeService();
 			 List<Notice> list = noticeService.getList(page,field,query);
 			 
-			 Thread.sleep(3000);
+			 Thread.sleep(500);
 			 
 			 Gson gson = new Gson();
 			 
