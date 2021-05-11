@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import project.entity.Member;
 import project.service.MemberService;
 
-//@WebServlet("../Project/Sign_Up")
+@WebServlet("../Project/Sign_Up")
 public class Sign_Up_Controller extends HttpServlet {
 
 	@Override

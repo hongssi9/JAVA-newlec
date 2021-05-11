@@ -576,6 +576,127 @@ window.addEventListener("load", function() {
 	};
 });
 
+/*function printExam(exam){ //가독성이 좋지않은 코드, 실행성능도 저하
+	var total = exam.kor + exam.eng + exam.math;
+	console.log(`kor:${exam.kor}, eng:${exam.eng}, math:${exam.math}`);
+	console.log(`total is ${total}`);
+}*/
+
+//function printExam(exam){
+	//뽀개기 : Destructuring
+	/*let kor = exam.kor;
+	let eng = exam.eng; //독단적인 변수 선언
+	let math = exam.math;*/
+	
+	//ES6에서 지원해주는 뽀개기
+	/*let {kor, eng} = exam; //변수선언 줄괄호 안에 선언한 변수 -> 지역변수 선언
+	let math = exam.math;*/
+	
+	//--객체의 속성이 아닌 변수도 함께 사용이 가능하다
+	/*let {kor, eng, math, avg=100} = exam;
+	console.log(avg);*/
+	
+	//---뽀개는 객체의 속성명의 별칭도 가능하다.
+/*	let {kor:k, eng, math, avg=100} = exam;
+	console.log(k);
+	
+	let total = kor + eng+ math;
+	console.log(`kor:${exam.kor}, eng:${exam.eng}, math:${exam.math}`);
+	console.log(`total is ${total}`);
+}
+
+let exam = {
+	kor:10,
+	eng:20,
+	math:30
+};
+
+printExam(exam);*/
+
+//------------연습 코드----------------
+/*let exam = {
+	kor:10,
+	eng:20,
+	math:20,
+	student:{
+		name:'newlec',
+		phone:'010-9632-8956'
+	},
+	aa:{
+		x:1
+	}
+};
+
+
+let {kor, eng,math, student:{name,phone}} = exam;
+console.log(name);
+console.log(phone);*/
+
+//---------함수로 만들때 매개변수로 쉽게 뿌개기---------
+/*function printExam({kor, eng, math}){
+	let total = kor + eng + math;
+	console.log(`kor:${kor}, eng:${eng}, math:${math}`);
+	console.log(`total is ${total}`);
+}
+printExam(exam);*/
+
+//-------------배열값을 원하는 변수에 넣기-------------------
+let lotto = [10,20,30,41,4,5];
+/*
+//let [num1, num2, num3, num4 ] = lotto; //배열 6개 값을 다 넣지 않아도 된다
+let [, , , num4, ,num6 ] = lotto; //인덱스처럼 원하는 몇번째 배열값을 넣고 싶다면?
+
+console.log(num4);
+console.log(num6);*/
+
+let [x,y] = [2,3]; //선언 동시에 값을 순서대로 넣어줌
+console.log(x);
+console.log(y);
+
+[x,y] = [3,4];
+console.log(x);
+console.log(y);
+
+[x,y] = [y,x]; //값 위치를 바꿀수도 있음
+console.log(x);
+console.log(y);
+
+let a;
+let b;
+
+[a,b] = [10,20];
+
+let {kor, eng} = {kor:70, eng:80};
+console.log(`kor:${kor}, eng${eng}`);
+
+({kor, eng} = {kor:80, eng:90}); 
+console.log(`kor:${kor}, eng${eng}`);
+
+//---------중첩된 배열 뽀개기---------------
+let [n1,n2,n3,[n4,n5,n6]] = [1,2,3,[11,22,33]];
+console.log(`n1:${n1},n2:${n2},n4:${n4},n6:${n6},`);
+
+//---------연습 문제------------
+let notices ={
+	title:"공지사항목록",
+	list:[
+		{title:"굿~",content:"좋아요~"},
+		{title:"ㅎ허",content:"풉킵"}
+	]
+}
+
+let {list:[, {title}] } = notices;
+
+console.log(title);
+
+/*let num1 = lotto[0];
+let num2 = lotto[1];
+let num3 = lotto[2];
+let num4 = lotto[3];
+let num5 = lotto[4];
+let num6 = lotto[5];*/
+
+
 
 
 // window.onload = function () { //로드되었을때...
