@@ -2,6 +2,7 @@ package project.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -46,4 +47,34 @@ public class MemberService {
 		return list;
 
 	}
+	
+	public int insert(Member member) throws ClassNotFoundException, SQLException {
+		int result = 0;
+
+		String sql = "INSERT INTO USER_(ID, PWD, NAME, GENDER, BIRTHDAY, PHONE, EMAIL) VALUES(?,?,?,?,?,?,?)"; 
+		String url = "jdbc:oracle:thin:@hi.namoolab.com:1521/xepdb1";
+		Class.forName("oracle.jdbc.OracleDriver");
+		Connection con = DriverManager.getConnection(url, "book", "12345");
+		
+		
+		//데이터 넣는 방법
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, member.getId());
+		st.setString(2, member.getPwd());
+		st.setString(3, member.getName());
+		st.setString(4, member.getGender());
+		st.setString(5, member.getBirthday());
+		st.setString(6, member.getPhone());
+		st.setString(7, member.getEmail());
+		
+		result = st.executeUpdate();
+		
+		st.close();
+		con.close();
+		
+		return result;
+	}
+	
+	
+	
 }
