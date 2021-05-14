@@ -10,9 +10,11 @@ import java.util.List;
 
 import com.newlecture.web.entity.Member;
 
+
+//가변형 배열인 getlist()를 만들어줬다 List<> -> http객체 인스턴스 member
 public class MemberService {
-	public List<Member> getList() throws ClassNotFoundException, SQLException {
-		List<Member> list = new ArrayList<>();
+	public List<Member> getList() throws ClassNotFoundException, SQLException { 
+		List<Member> list = new ArrayList<>(); 
 //		int i = 0;
 
 		String url = "jdbc:oracle:thin:@hi.namoolab.com:1521/xepdb1";
