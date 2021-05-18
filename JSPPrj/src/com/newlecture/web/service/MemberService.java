@@ -27,6 +27,7 @@ public class MemberService {
 		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(sql); // 서버에 있는걸 가져오는..공간
 //		rs.get..공간에서 데이터를 꺼내온다
+//		rs.get..공간에서 데이터를 꺼내온다
 
 		while (rs.next()) {
 			int id = rs.getInt("id");

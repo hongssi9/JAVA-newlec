@@ -40,7 +40,7 @@ public class RegController extends HttpServlet{ //edit에서 보내온 두개의
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect("list.jsp"); //어떤 아이디를 업데이트 할 것인가
+		response.sendRedirect("list.jsp"); 
 		
 	}
 
