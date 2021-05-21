@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.newlecture.web.entity.Notice;
-import com.newlecture.web.service.NoticeService;
+import com.newlecture.web.service.JdbcNoticeService;
 
 @WebServlet("/api/notice/list")
 public class NoticeList extends HttpServlet { //이 클래스를 NoticeList 서블릿 이라고 한다.
@@ -41,7 +41,7 @@ public class NoticeList extends HttpServlet { //이 클래스를 NoticeList 서�
 			if(q != null && !q.equals(""))
 				query = q;
 			
-			 NoticeService noticeService = new NoticeService();
+			 JdbcNoticeService noticeService = new JdbcNoticeService();
 			 List<Notice> list = noticeService.getList(page,field,query);
 			 
 			 Thread.sleep(500);
@@ -57,13 +57,10 @@ public class NoticeList extends HttpServlet { //이 클래스를 NoticeList 서�
 			 out.println(json); //[ , , , , ]구조가 동일해서 운좋게 저렇게 만들어서 출력해준거임list가 배열이라!
 			
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
 		

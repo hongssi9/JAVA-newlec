@@ -1,13 +1,13 @@
 
 <%@page import="com.newlecture.web.entity.Notice"%>
 <%@page import="java.util.List"%>
-<%@page import="com.newlecture.web.service.NoticeService"%>
+<%@page import="com.newlecture.web.service.JdbcNoticeService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 
 <%
-	String f = request.getParameter("f"); //list.jsp 에있는 (String field, String query)로 전달된다.
+String f = request.getParameter("f"); //list.jsp 에있는 (String field, String query)로 전달된다.
 	String q = request.getParameter("q");
 	String p = request.getParameter("p"); //페이지
 	
@@ -30,7 +30,7 @@
 		query = q;
 		
 
-   NoticeService noticeService = new NoticeService();
+   JdbcNoticeService noticeService = new JdbcNoticeService();
    /* List<Notice> list = noticeService.getList(p, f, q); */
    List<Notice> list = noticeService.getList(page_, field, query);
 %>

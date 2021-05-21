@@ -1,16 +1,16 @@
 
 <%@page import="com.newlecture.web.entity.Notice"%>
 <%@page import="java.util.List"%>
-<%@page import="com.newlecture.web.service.NoticeService"%>
+<%@page import="com.newlecture.web.service.JdbcNoticeService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 
 <%
-	String id_ = request.getParameter("id");
+String id_ = request.getParameter("id");
 	int id = Integer.parseInt(id_);
 
-	NoticeService noticeService = new NoticeService();
+	JdbcNoticeService noticeService = new JdbcNoticeService();
 	Notice notice = noticeService.get(id); //목록은 getlist 단일은 get
 	System.out.println(notice); //게시글 목록에서 누른 게시글 아이디가 잘 받아와 지는지 확인용
 %>

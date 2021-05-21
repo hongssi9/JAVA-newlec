@@ -1,6 +1,6 @@
 
 <%@page import="com.newlecture.web.entity.Notice"%>
-<%@page import="com.newlecture.web.service.NoticeService"%>
+<%@page import="com.newlecture.web.service.JdbcNoticeService"%>
 <%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>

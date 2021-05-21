@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.newlecture.web.entity.Notice;
-import com.newlecture.web.service.NoticeService;
+import com.newlecture.web.service.JdbcNoticeService;
 
 @WebServlet("/notice/edit") //url맵핑
 public class EditController extends HttpServlet{ //edit에서 보내온 두 개의 데이터를 받기 위한 클래스
@@ -21,7 +21,7 @@ public class EditController extends HttpServlet{ //edit에서 보내온 두 개�
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		
-		NoticeService service = new NoticeService();
+		JdbcNoticeService service = new JdbcNoticeService();
 		
 //		service.update(id, title, content);
 		
