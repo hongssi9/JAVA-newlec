@@ -2,11 +2,16 @@
 <%@page import="com.newlecture.web.entity.Notice"%>
 <%@page import="java.util.List"%>
 <%@page import="com.newlecture.web.service.JdbcNoticeService"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
+<c:set var="LastPage" value="${count/10 + (count%10==0?0:1)}" />
 
 
-<%
+<%-- <%
 String f = request.getParameter("f"); //list.jsp 에있는 (String field, String query)로 전달된다.
 	String q = request.getParameter("q");
 	String p = request.getParameter("p"); //페이지
@@ -20,7 +25,7 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 	String field = "title";
 	String query = "";
 	
-	if(p != null)
+	if(p != null && !p.equals(""))
 		page_ = Integer.parseInt(p);
 	
 	if(f != null && f.equals("")) //null도 아니고 빈 문자도 아니면
@@ -33,7 +38,7 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
    JdbcNoticeService noticeService = new JdbcNoticeService();
    /* List<Notice> list = noticeService.getList(p, f, q); */
    List<Notice> list = noticeService.getList(page_, field, query);
-%>
+%> --%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -140,9 +145,9 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 
 						<section class="search-form">
 							<h1>검색 폼</h1>
-							<form action="list.jsp" method="get">
+							<form action="list" method="get">
 								<label class="d-none">검색분류</label>
-								<%
+								<%-- <%
 									String selectedTitle = "";
 									String selectedWriterId = "";
 									
@@ -151,14 +156,16 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 									
 										if(field.equals("writer_id"))
 											selectedWriterId = "selected";
-								%>
+								%> --%> 
 								<select name="f">
 									<option value="">분류선택</option>
-									<option <%=selectedTitle %> value="title">제목</option>
-									<option <%=selectedWriterId %> value="writer_id">작성자</option>
+									<option ${param.f=='title'?'selected':''} value="title">제목</option>
+									<option ${param.f=='writer_id'?'selected':''} value="writer_id">작성자</option>
+									<%-- <option <%=selectedWriterId %> value="writer_id">작성자</option> --%>
 								</select>
 								<label class="d-none">검색어</label>
-								<input type="text" name="q" value="<%=query%>"> <!--검색했던 데이터 남기기-->
+								<input type="text" name="q" value="${param.q}">
+								<%-- <input type="text" name="q" value="<%=query%>"> <!--검색했던 데이터 남기기--> --%>
 								<input type="submit" value="검색">
 								</form>
 						</section>
@@ -176,7 +183,17 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 									</tr>
 								</thead>
 								<tbody>
-									<% for(Notice n : list){ %> <!-- 게시글 목록! 만들기 -->
+										<!-- 꺼내온 list하나를 키값인 n에다 넣어준다. -->
+								<c:forEach var="n" items="${list}">
+									<tr>
+										<td class="w-1">${n.id}</td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
+										<td class="truncate text-align-left"><a href="detail.jsp?id=${n.id}">${n.title}[20]</a></td>
+										<td class="w-2">${n.writerId}</td>		  
+										<td class="w-2"><fmt:formatDate value="${n.regDate}" pattern="yyyy년 MM월 dd일" /> </td>
+										<td class="w-1">${n.hit}</td>
+									</tr>							
+								</c:forEach>
+								<%-- 	<% for(Notice n : ${list}){ %> <!-- 게시글 목록! 만들기 -->
 									<tr>
 										<td class="w-1"><%=n.getId() %></td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
 										<td class="truncate text-align-left"><a href="detail.jsp?id=<%=n.getId() %>"><%=n.getTitle() %>[20]</a></td>
@@ -184,7 +201,7 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 										<td class="w-2"><%=n.getRegDate() %></td>
 										<td class="w-1"><%=n.getHit() %></td>
 									</tr>
-									<%} %>
+									<%} %> --%>
 								</tbody>
 							</table>
 							<div>
@@ -194,12 +211,12 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 
 						<section class="page-status mt-3">
 							<h1 class="d-none">현재 페이지 정보</h1>
-							<%
+							<%-- <%
 								int count = noticeService.getCount(field, query);
 								int lastPage = count/10+ (count%10==0?0:1); //
-							%>
+							%>  --%>
 							<div>
-								<span class="text-strong"><%=page_ %></span> / <%=lastPage %> pages
+								<span class="text-strong">${(empty param.p)?1:param.p}</span> / ${lastPage } pages
 							</div>
 						</section>
 						
@@ -211,11 +228,11 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 							<h1 class="d-none">페이저</h1>
 							<div class="button">이전</div>
 							<ul>
-							<%for(int i=0; i<5; i++){ %> <!--1.누르는 페이지만 색 입히기--> 
+							<%-- <%for(int i=0; i<5; i++){ %> <!--1.누르는 페이지만 색 입히기--> 
 								<%if(i+1 <= lastPage) {%> <!--로드된 페이지만큼만 숫자가 뜨기(lastPage)-->
 								<li><a class="<%=(page_ == i+1)?"text-strong":"" %>" href="list.jsp?p=<%=i+1 %>&f=<%=field %>&q=<%=query%>"><%=i+1 %></a></li>
 								<%} %>
-							<%} %>						 <!-- 삼항연산 -->
+							<%} %>	 --%>					 <!-- 삼항연산 -->
 							</ul>
 							<div class="button">다음</div>
 						</nav>

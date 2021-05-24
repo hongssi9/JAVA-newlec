@@ -1,18 +1,26 @@
 
 <%@page import="com.newlecture.web.entity.Notice"%>
-<%@page import="java.util.List"%>
-<%@page import="com.newlecture.web.service.JdbcNoticeService"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
 
-<%
+<%-- <%
+//05-24 방법론 설명 시작
+//자바 코드가 미리 컴파일 되었으면 좋겠다. -> 더 효율이 좋을텐데
+//협업할때 자바 하나 파일로 작업을 하면 효율이 좋지않음 -> 자바코드와 html로 나눌수 있다면 좋을텐데
+//->그래서 새로 DetailController로 코드를 옮겼음
 String id_ = request.getParameter("id");
 	int id = Integer.parseInt(id_);
 
 	JdbcNoticeService noticeService = new JdbcNoticeService();
 	Notice notice = noticeService.get(id); //목록은 getlist 단일은 get
 	System.out.println(notice); //게시글 목록에서 누른 게시글 아이디가 잘 받아와 지는지 확인용
+%> --%>
+
+<%
+
+	Notice notice = (Notice)request.getAttribute("notice");
+
 %>
 
 <!DOCTYPE html>
@@ -118,33 +126,33 @@ String id_ = request.getParameter("id");
 						<table border="1">
                            <tr>
                               <th>제목</th>
-                              <td colspan="3"><%=notice.getTitle() %></td>
+                              <td colspan="3">${notice.title}</td>
                            </tr>
                            <tr>
                               <th>작성일</th>
-                              <td colspan="3"><%=notice.getRegDate() %></td>
+                              <td colspan="3">${notice.regDate}</td>
                            </tr>
                            <tr>
                               <th>작성자</th>
-                              <td><%=notice.getWriterId() %></td>
+                              <td>${notice.writerId}</td> 
                               <th>조회수</th>
-                              <td><%=notice.getHit() %></td>
+                              <td>${notice.hit}</td>
                            </tr>
                            <tr>
                               <th>첨부파일</th>
-                              <td colspan="3"><%=notice.getFiles() %></td>
+                              <td colspan="3">${notice.files}</td>
                            </tr>
                            <tr>
                               <td colspan="4">
-                                <%=notice.getContent() %>
+                                ${notice.content}
                               </td>
                            </tr>
                         
                         </table>
                   <div>
                      <a href="list.jsp">목록</a>
-                     <a href="edit.jsp?id=<%= id %>">수정</a> <!-- 이미 만들어진 변수id를 사용했지만 notice.getId()이걸로도 가능 -->
-                     <a href="del?id=<%= id %>" onclick="if(!confirm('삭제하시겠습니까?')) return false;">삭제</a> 
+                     <a href="edit.jsp?id=${notice.id}">수정</a> <!-- 이미 만들어진 변수id를 사용했지만 notice.getId()이걸로도 가능 -->
+                     <a href="del?id=${notice.id}" onclick="if(!confirm('삭제하시겠습니까?')) return false;">삭제</a> 
                   </div>
 					</section>
 

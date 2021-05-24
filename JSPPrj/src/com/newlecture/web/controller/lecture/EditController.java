@@ -15,8 +15,9 @@ import com.newlecture.web.service.JdbcNoticeService;
 @WebServlet("/notice/edit") //url맵핑
 public class EditController extends HttpServlet{ //edit에서 보내온 두 개의 데이터를 받기 위한 클래스
 	
-	@Override
+	@Override	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+					//doPost는 실제로 사용하는 함수명
 		int id =Integer.parseInt(request.getParameter("id"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
