@@ -1,4 +1,4 @@
-package com.newlecture.web.controller.lecture;
+package com.newlecture.web.controller.admin.notice;
 
 import java.io.IOException;
 import java.sql.SQLException;

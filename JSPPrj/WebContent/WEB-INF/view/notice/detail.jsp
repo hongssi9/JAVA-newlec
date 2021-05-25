@@ -2,6 +2,7 @@
 <%@page import="com.newlecture.web.entity.Notice"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 
 <%-- <%
@@ -130,7 +131,7 @@ String id_ = request.getParameter("id");
                            </tr>
                            <tr>
                               <th>작성일</th>
-                              <td colspan="3">${notice.regDate}</td>
+                              <td colspan="3"><fmt:formatDate value="${notice.regDate}" pattern="yyyy년 MM월 dd일" /> </td>
                            </tr>
                            <tr>
                               <th>작성자</th>
@@ -150,8 +151,8 @@ String id_ = request.getParameter("id");
                         
                         </table>
                   <div>
-                     <a href="list.jsp">목록</a>
-                     <a href="edit.jsp?id=${notice.id}">수정</a> <!-- 이미 만들어진 변수id를 사용했지만 notice.getId()이걸로도 가능 -->
+                     <a href="list">목록</a>
+                     <a href="edit?id=${notice.id}">수정</a> <!-- 이미 만들어진 변수id를 사용했지만 notice.getId()이걸로도 가능 -->
                      <a href="del?id=${notice.id}" onclick="if(!confirm('삭제하시겠습니까?')) return false;">삭제</a> 
                   </div>
 					</section>

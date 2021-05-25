@@ -156,7 +156,7 @@ public class JdbcNoticeService { //서비스 클래스 구현
 	public int insert(Notice notice) throws ClassNotFoundException, SQLException {
 		int result = 0;
 
-		String sql = "INSERT INTO NOTICE(TITLE, WRITER_ID, CONTENT) VALUES(?,?,?)"; 
+		String sql = "INSERT INTO NOTICE(TITLE, WRITER_ID, CONTENT, FILES) VALUES(?,?,?,?)"; 
 		//실질적으로 타이틀과 컨텐트만 바뀌지만 모든 레코드를 다 업데이트 해줘야하는 문제가 있다.
 		String url = "jdbc:oracle:thin:@hi.namoolab.com:1521/xepdb1";
 		Class.forName("oracle.jdbc.OracleDriver");
@@ -168,6 +168,7 @@ public class JdbcNoticeService { //서비스 클래스 구현
 		st.setString(1, notice.getTitle()); //sql에서 +연산자로 데이터를 넣는것보다
 		st.setString(2, notice.getWriterId()); //이렇게 사용하는게 더 편한 방법
 		st.setString(3, notice.getContent());
+		st.setString(4, notice.getFiles());
 		
 		result = st.executeUpdate(); //ex..Query():select, ex..Update(): Update/Delete/Insert 할때 사용
 							//주로 두가지

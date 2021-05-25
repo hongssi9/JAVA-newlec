@@ -2,13 +2,19 @@
 <%@page import="com.newlecture.web.entity.Notice"%>
 <%@page import="java.util.List"%>
 <%@page import="com.newlecture.web.service.JdbcNoticeService"%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 	
-<c:set var="LastPage" value="${count/10 + (count%10==0?0:1)}" />
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
+
+<%-- <c:set var="num" value="${count/10}" /> --%>
+<%-- <fmt:formatNumber var="num" value="${count/10}" pattern="#.##"/>
+
+
+<c:set var="LastPage" value="${num + (count%10==0?0:1)}" /> --%>
 
 
 <%-- <%
@@ -48,7 +54,7 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Document</title>
-<link href="../css/style.css" type="text/css" rel="stylesheet">
+<link href="../../css/style.css" type="text/css" rel="stylesheet">
 <script src="list.js"></script>
 </head>
 
@@ -187,7 +193,7 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 								<c:forEach var="n" items="${list}">
 									<tr>
 										<td class="w-1">${n.id}</td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
-										<td class="truncate text-align-left"><a href="detail.jsp?id=${n.id}">${n.title}[20]</a></td>
+										<td class="truncate text-align-left"><a href="detail?id=${n.id}">${n.title}[20]</a></td>
 										<td class="w-2">${n.writerId}</td>		  
 										<td class="w-2"><fmt:formatDate value="${n.regDate}" pattern="yyyy년 MM월 dd일" /> </td>
 										<td class="w-1">${n.hit}</td>
@@ -205,7 +211,7 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 								</tbody>
 							</table>
 							<div>
-								<a href="reg.jsp">글쓰기</a>	
+								<a href="reg">글쓰기</a>	
 							</div>
 						</section>
 
@@ -216,7 +222,9 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 								int lastPage = count/10+ (count%10==0?0:1); //
 							%>  --%>
 							<div>
-								<span class="text-strong">${(empty param.p)?1:param.p}</span> / ${lastPage } pages
+							<c:set var="LastPage" value="${count/10 + (count%10==0?0:1)}" />
+							<c:set var="LastPage" value="${fn:substringBefore(LastPage, '.')}" />
+								<span class="text-strong">${(empty param.p)?1:param.p}</span> / ${LastPage} pages
 							</div>
 						</section>
 						
@@ -228,11 +236,17 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 							<h1 class="d-none">페이저</h1>
 							<div class="button">이전</div>
 							<ul>
+							<c:set var="page" value="${empty param.p?1:param.p}" />
+							<c:forEach var="num" begin="1" end="10">
+								<c:if test="${num <= LastPage }">
+								<li><a class="${(page == num)?'text-strong':''}" href="list?p=${num}&f=${param.f}&q=${param.q}">${num}</a></li>
+								</c:if>						
+							</c:forEach>
 							<%-- <%for(int i=0; i<5; i++){ %> <!--1.누르는 페이지만 색 입히기--> 
 								<%if(i+1 <= lastPage) {%> <!--로드된 페이지만큼만 숫자가 뜨기(lastPage)-->
 								<li><a class="<%=(page_ == i+1)?"text-strong":"" %>" href="list.jsp?p=<%=i+1 %>&f=<%=field %>&q=<%=query%>"><%=i+1 %></a></li>
 								<%} %>
-							<%} %>	 --%>					 <!-- 삼항연산 -->
+							<%} %> --%>					 <!-- 삼항연산 -->
 							</ul>
 							<div class="button">다음</div>
 						</nav>

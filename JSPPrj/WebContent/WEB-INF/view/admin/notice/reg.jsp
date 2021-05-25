@@ -14,7 +14,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link href="../css/style.css" type="text/css" rel="stylesheet">
+    <link href="../../css/style.css" type="text/css" rel="stylesheet">
     <script src="list.js"></script>
 </head>
 
@@ -108,7 +108,7 @@
                         </section>
 
                   
-                  <form action="reg" method="post">
+                  <form action="reg" method="post" enctype="multipart/form-data">
                            <table border="1">                        
                               <tr>
                                  <th>제목</th>
@@ -117,7 +117,9 @@
                               
                               <tr>
                                  <th>첨부파일</th>
-                                 <td colspan="3"></td>
+                                 <td colspan="3">
+                                 	<input type="file" name="f">
+                                 </td>
                               </tr>
                               <tr>
                                  <td colspan="4">

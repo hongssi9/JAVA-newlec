@@ -26,12 +26,12 @@ public class ListController extends HttpServlet{
 		System.out.println(p);
 		
 		//변수 초기화 : 기본 값을 설정하는 것
-		int page_ = 1; //페이지 수는 정수로 받아야 하기 때문에 page빨간줄이유 : page는 내장변수가 이미 어디서 쓰이고있어서
+		int page = 1; //페이지 수는 정수로 받아야 하기 때문에 page빨간줄이유 : page는 내장변수가 이미 어디서 쓰이고있어서
 		String field = "title";
 		String query = "";
 		
 		if(p != null && !p.equals(""))
-			page_ = Integer.parseInt(p);
+			page = Integer.parseInt(p);
 		
 		if(f != null && f.equals("")) //null도 아니고 빈 문자도 아니면
 			field = f;
@@ -41,8 +41,9 @@ public class ListController extends HttpServlet{
 		
 	   JdbcNoticeService noticeService = new JdbcNoticeService();
 	   List<Notice> list = null;
+	   int count = 0;
 	try {
-		list = noticeService.getList(page_, field, query);
+		list = noticeService.getList(page, field, query);
 	} catch (ClassNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -53,8 +54,9 @@ public class ListController extends HttpServlet{
 	   
 	   //1.데이터 심기(model 데이터)
 	   request.setAttribute("list", list);
+	   request.setAttribute("count", count);
 	   //2. 포워딩 하기
-	   request.getRequestDispatcher("list.jsp").forward(request, response);
+	   request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, response);
 	}
 
 }

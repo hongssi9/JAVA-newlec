@@ -1,4 +1,4 @@
-package com.newlecture.web.controller.notice;
+package com.newlecture.web.controller.admin.notice;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.newlecture.web.entity.Notice;
 import com.newlecture.web.service.JdbcNoticeService;
 
-@WebServlet("/notice/detail")
+@WebServlet("/admin/notice/detail")
 public class DetailController extends HttpServlet{
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -32,7 +32,7 @@ public class DetailController extends HttpServlet{
 			} 
 			request.setAttribute("notice",notice); 
 			
-			request.getRequestDispatcher("/WEB-INF/view/notice/detail.jsp").forward(request, response); 
+			request.getRequestDispatcher("/WEB-INF/view/admin/notice/detail.jsp").forward(request, response); 
 
 	}
 
