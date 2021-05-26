@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.Collection;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -42,10 +43,26 @@ public class RegController extends HttpServlet{ //edit에서 보내온 두개의
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+//----------------------------여러개 파일--------------------------------------------------		
+//		String[] habs = request.getParameterValues("h"); //같은 name값을 두 개 이상 받을때는 values로 써서 배열로 받아온다		
+//		System.out.println(habs[0] + "," + habs[1]); //47,48 취미 다중 선택 코드
 		
-		Part fpart = request.getPart("f");
+		String fileNames = "";
+		int fileCount = 0;
+		
+		Collection<Part> parts = request.getParts();
+		for(Part fpart : parts) {
+			if(!fpart.getName().equals("f"))
+				continue;		
+			if(fpart.getSize() == 0)//파일이 선택되지 않아도 올라갈수 있게하기
+				continue; //제어문에는 break와 continue가있는데 break는 반복문에서 벗어나게되고 countinue 조건이 안맞으면 아래로가지않고 다시 반복문으로 돌아간다.
+			
+		//Part fpart = request.getPart("f");
 		String fileName = fpart.getSubmittedFileName(); //전송할 파일이름
-		InputStream fis = fpart.getInputStream(); //
+		InputStream fis = fpart.getInputStream(); //	
+		fileNames += fileName + ","; //두개이상 DB에 파일을 올릴때 ,표로 구분해주기위한 코드
+		fileCount++;
+		//---------------------------------------
 		
 		ServletContext application = request.getServletContext(); 
 		String path = "/upload"; //C:/proj/web/root/upload 물리경로로만 되 있어야 출력히 가능하다.
@@ -68,10 +85,12 @@ public class RegController extends HttpServlet{ //edit에서 보내온 두개의
 		fos.flush();
 		fos.close();
 		fis.close();
+	}
+		
+		fileNames = fileNames.substring(0, fileNames.length()-2); //중복파일
 			
 		JdbcNoticeService service = new JdbcNoticeService();
 		
-//		service.update(id, title, content);
 		
 		try {
 			//지금 INSERT 기능을 만드는건데 DB에서 ID값이 낫널이라 보이지않게됨
@@ -79,9 +98,8 @@ public class RegController extends HttpServlet{ //edit에서 보내온 두개의
 			notice.setTitle(title); //타이틀과 컨텐트 내용을 바꾸려고 한다(수정)
 			notice.setWriterId("JH");
 			notice.setContent(content);
-			notice.setFiles(fileName);
+			notice.setFiles(fileNames); //fileName -> fileNames로
 			service.insert(notice); //NoticeService에 업데이트
-			//service.insert(title, content)
 			
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

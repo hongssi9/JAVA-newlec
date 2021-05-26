@@ -171,6 +171,7 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 								</select>
 								<label class="d-none">검색어</label>
 								<input type="text" name="q" value="${param.q}">
+								<input type="hidden" name="p" value="${p=1}">
 								<%-- <input type="text" name="q" value="<%=query%>"> <!--검색했던 데이터 남기기--> --%>
 								<input type="submit" value="검색">
 								</form>
@@ -190,9 +191,9 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 								</thead>
 								<tbody>
 										<!-- 꺼내온 list하나를 키값인 n에다 넣어준다. -->
-								<c:forEach var="n" items="${list}">
+								<c:forEach var="n" items="${list}" varStatus="st">
 									<tr>
-										<td class="w-1">${n.id}</td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
+										<td class="w-1">${n.id} / ${st.index} / ${st.count} / ${st.current.title}</td> <!-- 검색했을때 데이터베이스 값이 나오도록 값을 넣어줌 -->
 										<td class="truncate text-align-left"><a href="detail?id=${n.id}">${n.title}[20]</a></td>
 										<td class="w-2">${n.writerId}</td>		  
 										<td class="w-2"><fmt:formatDate value="${n.regDate}" pattern="yyyy년 MM월 dd일" /> </td>
@@ -210,6 +211,8 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 									<%} %> --%>
 								</tbody>
 							</table>
+							
+							
 							<div>
 								<a href="reg">글쓰기</a>	
 							</div>

@@ -3,6 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
 <%-- <%
@@ -141,7 +142,15 @@ String id_ = request.getParameter("id");
                            </tr>
                            <tr>
                               <th>첨부파일</th>
-                              <td colspan="3">${notice.files}</td>
+                              <td colspan="3">
+                              <c:forTokens var="fileName" items="${notice.files}" delims="," varStatus="st"> <!--태그라이브러리로 만드는 구분자 ,표 쉽게 만들어진다. 파일명을 원하는 이름으로 출력할수도있음-->
+                              	<a download href="/upload/${fileName}">${fileName}</a>
+                              	<c:if test="${!st.last}">
+                              	|                  
+                              	</c:if>            
+                              </c:forTokens>
+                              
+                              </td>
                            </tr>
                            <tr>
                               <td colspan="4">

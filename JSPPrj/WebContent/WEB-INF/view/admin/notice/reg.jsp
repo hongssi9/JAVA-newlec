@@ -15,6 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="../../css/style.css" type="text/css" rel="stylesheet">
+    <script src="../../js/admin/notice/reg.js"></script>
     <script src="list.js"></script>
 </head>
 
@@ -121,6 +122,21 @@
                                  	<input type="file" name="f">
                                  </td>
                               </tr>
+                              	<!-- <tr>
+                              		<td>
+                              		취미 : <label>십자수</label>
+                              		<input type="checkbox" value="1" name="h">
+                              		<label>등산</label>
+                              		<input type="checkbox" value="2" name="h">
+                              		</td>
+                              	</tr>   -->                            
+                              <tr>
+                                 <th>첨부파일</th>
+                                 <td colspan="3">
+                                 	<input type="file" name="f">
+                                 </td>
+                              </tr>
+                              
                               <tr>
                                  <td colspan="4">
                                  <textarea rows="20" cols="80" name="content"></textarea> <!--글 내용-->
@@ -128,6 +144,31 @@
                                  </td>
                               </tr>
                            </table>
+                           
+                           <section id="dnd-box">
+						        <style>
+						            #dnd-box .upload-box{
+						                width:500px;
+						                height: 150px;
+						                border:1px solid gray;
+						                box-shadow: 2px 3px 9px hsl(0, 0%, 47%);
+						                padding:10px;
+						            }
+						            #dnd-box .upload-box.valid{
+						            	background: green;	
+						            }
+						            #dnd-box .upload-box.invalid{
+						            	background: red;
+						            }
+						        </style>
+						        <h1 class="d-none">파일업로드 : DND & Trigger</h1>
+						        <div class="upload-box">
+						            <button class="btn-sel">파일선택</button>						            
+						            <input class="btn-file d-none" type="file">           
+						        </div>
+						    </section>
+
+                           
                      <div>
                         <input type="submit" value="저장">
                         <a href="list.jsp">취소</a>
