@@ -2,6 +2,7 @@ package com.newlecture.web.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -45,5 +46,62 @@ public class MemberService {
 		return list;
 		
 		
+	}
+	
+	   public Member getByNicName(String userName) {
+		      
+		      Member member = null;
+		      
+		      String url = "jdbc:oracle:thin:@hi.namoolab.com:1521/xepdb1";
+		      //String sql = "SELECT * FROM MEMBER WHERE NICNAME=" + "'" + nickname +"'";
+		      //String sql = String.format("SELECT * FROM MEMBER WHERE NICNAME='%s'", nickname);
+		      String sql = "SELECT * FROM MEMBER WHERE NICNAME=?";
+		      
+		      try {
+		         Class.forName("oracle.jdbc.OracleDriver");
+		         Connection con = DriverManager.getConnection(url, "NEWLEC", "11111");
+		         
+		         PreparedStatement st = con.prepareStatement(sql);
+		         st.setString(1, userName);
+		         
+		         ResultSet rs = st.executeQuery();
+		         
+		         // 읽어온 레코드가 없을 때까지 반복하시오.
+		         // 다 하셨으면 손!!!!
+		         
+		         // 멤버 데이터   
+		         if(rs.next()) {
+		            int id = rs.getInt("id");
+		            String nicName = rs.getString("nicname");
+		            String pwd = rs.getString("pwd");
+		            
+		            //System.out.printf("id:%d, nicname:%s, pwd:%s\n", id, nicName, pwd);
+		            member = new Member();
+		            member.setId(id);
+		            member.setNicName(nicName);
+		            member.setPwd(pwd);                        
+		         }
+		         
+		         rs.close();
+		         st.close();
+		         con.close();
+		      } catch (ClassNotFoundException e) {
+		         // TODO Auto-generated catch block
+		         e.printStackTrace();
+		      } catch (SQLException e) {
+		         // TODO Auto-generated catch block
+		         e.printStackTrace();
+		      }
+		      
+		      
+		      
+		      return member;
+		   }
+		
+
+
+	public static Member get(String userName) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

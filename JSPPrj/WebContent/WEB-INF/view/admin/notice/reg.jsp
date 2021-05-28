@@ -21,50 +21,8 @@
 
 <body>
     <div id="root">
-        <header id="header">
-            <div class="float-content">
-                <h1 class="logo"><img src="../images/logo.png" alt="뉴렉처 온라인"></h1>
-                <section>
-                    <h1 class="d-none">헤더</h1>
-                    <nav class="main-menu">
-                        <h1 class="d-none">메인메뉴</h1>
-                        <ul>
-                            <li><a class="redsun" href="" dir="ltr">학습가이드</a></li>
-                            <li><a href="">강좌선택</a></li>
-                            <li><a href="">AnswerIs</a></li>
-                        </ul>
-                    </nav>                    
-                    <section class="lecture-search-form">
-                        <h1 class="d-none">강좌검색폼</h1>
-                        <form>
-                            <fieldset>
-                                <legend class="d-none">과정 검색 필드</legend>
-                                <label>과정검색</label>
-                                <input id="a1" type="text" value="테스트">
-                                <input class="button" type="submit" value="검색">
-                            </fieldset>
-                        </form>
-                    </section>
-
-                    <nav class="member-menu">
-                        <h1 class="d-none">회원메뉴</h1>
-                        <ul>
-                            <li><a href="index.html">HOME</a></li>
-                            <li><a href="member/login.html">로그인</a></li>
-                            <li><a href="">회원가입</a></li>
-                        </ul>
-                    </nav>
-
-                    <nav class="customer-menu">
-                        <h1 class="d-none">고객센터메뉴</h1>
-                        <ul>
-                            <li><a class="button mypage-button" href="">마이페이지</a></li>
-                            <li><a class="button customer-button" href="">고객센터</a></li>
-                        </ul>
-                    </nav>
-                </section>
-            </div>
-        </header>
+        <!-- header 영역 -->
+        <jsp:include page="/WEB-INF/view/inc/header.jsp"/>
 
         <div id="visual">
             <div class="float-content">
@@ -109,7 +67,7 @@
                         </section>
 
                   
-                  <form action="reg" method="post" enctype="multipart/form-data">
+                  <form class="form" action="reg" method="post" enctype="multipart/form-data">
                            <table border="1">                        
                               <tr>
                                  <th>제목</th>
@@ -145,6 +103,12 @@
                               </tr>
                            </table>
                            
+                           <div class="progress-status">
+                           		<div><span class="bar">0%</span></div>
+                           		<ul>
+                           			
+                           		</ul>
+                           	</div>
                            <section id="dnd-box">
 						        <style>
 						            #dnd-box .upload-box{
@@ -159,6 +123,21 @@
 						            }
 						            #dnd-box .upload-box.invalid{
 						            	background: red;
+						            }
+						            .progress-status{
+						            	font-size: 20px;
+						            	width: 600px;
+						            }
+						            
+						            .progress-status .bar{
+						            	display: inline-block;
+						            	height: 20px;
+						            	width: 0%;
+						            	background: green;
+						            	text-align: right;
+						            	color:#fff;
+						            	
+						            	transition:0.5s;
 						            }
 						        </style>
 						        <h1 class="d-none">파일업로드 : DND & Trigger</h1>

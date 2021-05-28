@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -50,14 +51,17 @@ public class UploaderController extends HttpServlet {
 		System.out.println(realpath); //물리경로 얻는지 확인용
 		
 		byte[] buf = new byte[1024];
-		int len = 0;
+		int len = 0; //
 		
-		while((len=fis.read(buf,0,1024)) >= 0 )
+		while((len=fis.read(buf,0,1024)) >= 0 ) //1024개까지(읽어온 바이트수까지) len에다가 대입(300개를 읽었으면 300개까지만 쓴다)
 			fos.write(buf, 0, len);
 		
 		fos.flush();
 		fos.close();
 		fis.close();
+		
+		PrintWriter out = response.getWriter();
+		out.println(path+"/"+fileName);
 	}
 
 }

@@ -243,8 +243,8 @@ window.addEventListener("load", function() {
 	accordion.onclick = function(e) {
 		console.log("test");
 		//1. title이 아니면 return
-		if (!e.target.classList.contains("title"))
-			return;
+	/*	if (!e.target.classList.contains("title"))
+			return;*/
 
 		//2. target 의 동생의 d-none을 빼자
 		e.target.nextElementSibling.classList.toggle("d-none"); //nextsibling:

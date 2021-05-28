@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
 import com.newlecture.web.entity.Notice;
@@ -33,13 +34,24 @@ public class RegController extends HttpServlet{ //edit에서 보내온 두개의
 	
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.getRequestDispatcher("/WEB-INF/view/admin/notice/reg.jsp").forward(request, response);
+		
+		//만약에 현재 사용자가 login 프로세스를 통해서 인증이 되지 않았다면
+//		HttpSession session = request.getSession();
+//		String uid = (String)session.getAttribute("uid"); //담기는건 오브젝트이기때문에 형변환
+//		//인증하고 오세요(로그인페이지로)
+//		if(uid == null) {
+//			response.sendRedirect("../../member/login?returnURL=/admin/notice/reg");
+//			return;
+//		}
+		
+		
+		request.getRequestDispatcher("/WEB-INF/view/admin/notice/reg.jsp").forward(request, response);	
 	}
 	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		request.setCharacterEncoding("UTF-8");
+ //		request.setCharacterEncoding("UTF-8"); 필터를 만들어줘서 인코딩이 이쪽에 필요가 없음
 		
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
