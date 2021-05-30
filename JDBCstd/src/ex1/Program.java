@@ -18,7 +18,7 @@ public class Program {
 		//3.statement
 		Statement st = con.createStatement();
 		//4.resultset
-		String sql = "SELECT * FROM USER_ ";
+		String sql = "SELECT * FROM MEMBER ";
 		ResultSet rs = st.executeQuery(sql);
 		
 		//1.쿼리문 한줄 가져오기
@@ -31,9 +31,10 @@ public class Program {
 		String birt = rs.getString("BIRTHDAY");
 		String phone = rs.getString("PHONE");
 		String email = rs.getString("EMAIL");
+		String nickname = rs.getString("NICKNAME");
 		
 		
-		System.out.printf("아이디:%s,비밀번호:%s,이름:%s,성별:%s,생년월일:%s,핸드폰:%s,이메일%s\n",id,pw,name,gender,birt,phone,email);
+		System.out.printf("아이디:%s,비밀번호:%s,이름:%s,성별:%s,생년월일:%s,핸드폰:%s,이메일%s,별명%s \n",id,pw,name,gender,birt,phone,email,nickname);
 		}
 		//3.가져온 쿼리문을 출력하기
 //		if(rs.next()) { //쿼리문 한줄 가져오기
