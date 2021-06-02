@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class ListController extends HttpServlet{
 			field = f;
 		
 		if(q != null && !q.equals(""))
-			query = q;
+			query = q;	
 		
 	   JdbcNoticeService noticeService = new JdbcNoticeService();
 	   List<Notice> list = null;
@@ -65,8 +66,27 @@ public class ListController extends HttpServlet{
 	   //1.데이터 심기(model 데이터)
 	   request.setAttribute("list", list);
 	   request.setAttribute("count", count);
+	   
+	   // cookie 사용하기
+//	   Cookie[] cookies = request.getCookies();
+//		String q1 = null;
+//		for(Cookie c: cookies)
+//			if(c.getName().equals("query"))
+//				q1 = c.getValue();
+//		
+//		System.out.printf("query cookie:%s\n",q1);
+//	   
+//	   if(q1 == null) { //쿠키가 없으면 가져오게 하기
+//		   Cookie cookie = new Cookie("query", "hello");
+//		   cookie.setMaxAge(10*24*60*60); //브라우저가 닫혀도 10일동안 저장된다 (24시간 하루 * 10)
+//		   cookie.setPath("/"); //루트에있는 모든 클래스가 쿠키를 전달받는다.
+//		   response.addCookie(cookie);
+//	   }
+	   
 	   //2. 포워딩 하기
 	   request.getRequestDispatcher("/WEB-INF/view/admin/notice/list.jsp").forward(request, response);
+	   
+	   
 	}
 
 }

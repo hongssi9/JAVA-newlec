@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.newlecture.web.entity.Notice;
 import com.newlecture.web.service.JdbcNoticeService;
+
 @WebServlet("/notice/list")
 public class ListController extends HttpServlet{
 	
