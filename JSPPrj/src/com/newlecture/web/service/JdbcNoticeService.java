@@ -12,59 +12,90 @@ import java.util.List;
 
 import com.newlecture.web.entity.Notice;
 
-public class JdbcNoticeService { //서비스 클래스 구현
+public class JdbcNoticeService implements NoticeService { //서비스 클래스 구현
 
 	public List<Notice> getList() throws ClassNotFoundException, SQLException {
 		return getList(1, "title", "");
 	}
 
-	public List<Notice> getList(int page, String field, String query) throws ClassNotFoundException, SQLException {
+	public List<Notice> getList(int page, String field, String query){
 		List<Notice> list = new ArrayList<>();
-
-		// page 1 : startNum : and endNum
+		//int i = 0;
 		int size = 10;
-		int startNum = 1 + (page - 1) * size;
-		int endNum = page * size;
-
+		int startNum = 1+(page-1)*size;
+		int endNum = page*size;
+		
+		/*
+		page : 	startNum 	: 	endNum
+		1  		1				10
+		2		11				20
+		3		21				30
+		4		..				..
+		n		an=1+(page-1)*size, an=page*size
+		 */
+		
 		String url = "jdbc:oracle:thin:@hi.namoolab.com:1521/xepdb1";
-//		String sql = "SELECT * FROM NOTICE";
-
-		String sql = "SELECT * FROM (" + "    SELECT ROWNUM NUM, N.* " + "    FROM (" + "        SELECT * "
-				+ "        FROM NOTICE" + "        WHERE " + field + " LIKE '%" + query + "%'"
-				+ "        ORDER BY REGDATE DESC" + "    ) N " + ")" + "WHERE NUM BETWEEN " + startNum + " AND "
-				+ endNum + "";
-
-		Class.forName("oracle.jdbc.OracleDriver");
-		Connection con = DriverManager.getConnection(url, "NEWLEC", "11111");
-
-		Statement st = con.createStatement();
-		ResultSet rs = st.executeQuery(sql); // 서버에 있는걸 가져오는..공간
-//		rs.get..공간에서 데이터를 꺼내온다
-
-		while (rs.next()) {
-			int id = rs.getInt("id");
-			String title = rs.getString("title");
-			String content = rs.getString("content");
-			String writerId = rs.getString("writer_Id");
-			Date regDate = rs.getDate("regDate");
-			int hit = rs.getInt("hit");
-			String files = rs.getString("files");
-
-			Notice notice = new Notice();
-			notice.setId(id);
-			notice.setTitle(title);
-			notice.setContent(content);
-			notice.setRegDate(regDate);
-			notice.setHit(hit);
-			notice.setFiles(files);
-			notice.setWriterId(writerId);
-
-			list.add(notice);
+		//String sql = "SELECT * FROM MEMBER WHERE NICNAME=" + "'" + nickname +"'";
+		//String sql = String.format("SELECT * FROM MEMBER WHERE NICNAME='%s'", nickname);
+		// 필터링, 정렬, 그룹핑, .... -> SQL에서 담당할 것.
+		String sql = "SELECT * FROM ("
+				+ "    SELECT ROWNUM NUM, N.* "
+				+ "    FROM ("
+				+ "        SELECT * "
+				+ "        FROM NOTICE"
+				+ "        WHERE "+field+" LIKE '%"+query+"%'"
+				+ "        ORDER BY REGDATE DESC"
+				+ "    ) N "
+				+ ")"
+				+ "WHERE NUM BETWEEN "+startNum+" AND "+endNum;
+		System.out.println(sql);
+		// 
+		try {
+			Class.forName("oracle.jdbc.OracleDriver");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
-		rs.close();
-		st.close();
-		con.close(); // 서버닫기!
-
+		
+		try(					
+			Connection con = DriverManager.getConnection(url, "NEWLEC", "11111");
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+		) {			
+			
+			// 읽어온 레코드가 없을 때까지 반복하시오.
+			// 다 하셨으면 손!!!!
+			
+			// 멤버 데이터	
+			while(rs.next()) {
+				int id = rs.getInt("id");
+				String title = rs.getString("title");
+				String content = rs.getString("content");
+				String writerId = rs.getString("writer_id");
+				Date regDate = rs.getDate("regDate");
+				int hit = rs.getInt("hit");
+				String files = rs.getString("files");
+				
+				//System.out.printf("id:%d, nicname:%s, pwd:%s\n", id, nicName, pwd);
+				Notice notice = new Notice();
+				notice.setId(id);
+				notice.setTitle(title);
+				notice.setContent(content);
+				notice.setWriterId(writerId);
+				notice.setRegDate(regDate);
+				notice.setHit(hit);
+				notice.setFiles(files);
+				
+				list.add(notice);						
+			}
+									
+		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			
+			e.printStackTrace();
+		}
+		
 		return list;
 	}
 
@@ -208,6 +239,36 @@ public class JdbcNoticeService { //서비스 클래스 구현
 		
 		return 0;
 		
+	}
+
+	@Override
+	public List<Notice> getList(int page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Notice> getList(String field, String query, int page) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getCounut() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getCouunt(String field, String qery) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int hitUp() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 

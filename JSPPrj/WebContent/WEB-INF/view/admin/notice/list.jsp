@@ -129,7 +129,8 @@ String f = request.getParameter("f"); //list.jsp 에있는 (String field, String
 								</select>
 								<label class="d-none">검색어</label>
 								<input type="text" name="q" value="${param.q}">
-								<input type="hidden" name="p" value="${p=1}">
+								<%-- <input type="hidden" name="p" value="${p=1}"> --%>
+								<input type="hidden" name="p" value="1">
 								<%-- <input type="text" name="q" value="<%=query%>"> <!--검색했던 데이터 남기기--> --%>
 								<input type="submit" value="검색">
 								</form>

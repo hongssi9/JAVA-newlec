@@ -40,24 +40,26 @@ public class ListController extends HttpServlet{
 		if(q != null && !q.equals(""))
 			query = q;
 		
-	   JdbcNoticeService noticeService = new JdbcNoticeService();
-	   List<Notice> list = null;
-	   int count = 0;
-	try {
-		list = noticeService.getList(page, field, query);
-	} catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+		JdbcNoticeService noticeService = new JdbcNoticeService();		
+	   	List<Notice> list = noticeService.getList(page, field, query);
+	   	int count = 0;
+	   	
+	   	try {
+			count = noticeService.getCount(field, query);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	   	
+	   	// 포워딩은 여러분들이 하는 걸로다가.... 남기고..
+	   	// 1. 데이터 심기(Model 데이터)
+	   	request.setAttribute("list", list);
+	   	request.setAttribute("count", count);
+	   	// 2. 포워딩 하기
+	   	request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, response);
 	}
-	   
-	   //1.데이터 심기(model 데이터)
-	   request.setAttribute("list", list);
-	   request.setAttribute("count", count);
-	   //2. 포워딩 하기
-	   request.getRequestDispatcher("/WEB-INF/view/notice/list.jsp").forward(request, response);
-	}
-
 }
+
